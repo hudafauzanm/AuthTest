@@ -19,9 +19,9 @@ namespace CLI
         public static async Task<int> Main(string[] args)
         {
             var client = new HttpClient();
-
-            Token Token = new Token();
-            
+            string text = System.IO.File.ReadAllLines("token.txt").Last();
+            var token = text; 
+            Token Token =  new Token();
             var root = new CommandLineApplication()
             {
                 Name = "#9 Get screenshots from a list of file",
@@ -67,8 +67,7 @@ namespace CLI
                     var response = await client.PostAsync("https://localhost:5001/user/login",hasil);
                     var json = await response.Content.ReadAsStringAsync();
                     Token = JsonSerializer.Deserialize<Token>(json);
-                    Console.WriteLine(Token.token);
-
+                    Token.SaveToken();
                 });
             });
             root.Command("list",app => 
@@ -77,9 +76,9 @@ namespace CLI
                 
                 app.OnExecuteAsync(async cancellationToken => 
                 {   
-                    if(Token.token!="")
+                    if(token!="")
                     {
-                        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",Token.token);
+                        client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token);
                         HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get,"https://localhost:5001/todo/list");
                         HttpResponseMessage response = await client.SendAsync(request);
                         var json = await response.Content.ReadAsStringAsync();
@@ -102,13 +101,14 @@ namespace CLI
                 
                 app.OnExecuteAsync(async cancellationToken => 
                 {
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token);
                     var add = new Todo()
                     {
                         activity = text.Value,
                     };
                     var data = JsonSerializer.Serialize(add);
                     var hasil = new StringContent(data,Encoding.UTF8,"application/json");
-                    var response = await client.PostAsync("https://localhost:5001/todos",hasil);
+                    var response = await client.PostAsync("https://localhost:5001/todo/add",hasil);
                 });
             });
 
@@ -120,16 +120,9 @@ namespace CLI
                 app.OnExecuteAsync(async cancellationToken => 
                 {
                     Prompt.GetYesNo("Yakin kah?",false);
-                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get,"https://localhost:5001/todos");
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token);
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get,"https://localhost:5001/todo/clear");
                     HttpResponseMessage response = await client.SendAsync(request);
-                    var json = await response.Content.ReadAsStringAsync();
-                    
-                    var list = JsonSerializer.Deserialize<List<Todo>>(json);
-                    var x = from l in list select l.id;
-                    foreach(var y in x)
-                    {
-                        var responses = await client.DeleteAsync($"https://localhost:5001/todos/{y}");
-                    }
                 });
             });
 
@@ -140,9 +133,10 @@ namespace CLI
                 var text = app.Argument("Text","Masukkan Text",true);
                 app.OnExecuteAsync(async cancellationToken => 
                 {
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token);
                     var add = "{" + "\"activity\":" + $"\"{text.Values[1]}\"" + "}";
                     var hasil = new StringContent(add,Encoding.UTF8,"application/json");
-                    var responses = await client.PatchAsync($"https://localhost:5001/todos/{text.Values[0]}",hasil);
+                    var responses = await client.PatchAsync($"https://localhost:5001/todo/update/{text.Values[0]}",hasil);
                 });
             });
 
@@ -152,7 +146,9 @@ namespace CLI
                 var text = app.Argument("Text","Masukkan Text");
                 app.OnExecuteAsync(async cancellationToken => 
                 {   
-                    var responses = await client.DeleteAsync($"https://localhost:5001/todos/{text.Value}");
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token);
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get,$"https://localhost:5001/todo/delete/{text.Value}");
+                    HttpResponseMessage response = await client.SendAsync(request);
                 });
             });
 
@@ -163,9 +159,9 @@ namespace CLI
                 var text = app.Argument("Text","Masukkan Text");
                 app.OnExecuteAsync(async cancellationToken => 
                 {   
-                    var add = "{" + "\"status\":" + "\"Done\"" + "}";
-                    var hasil = new StringContent(add,Encoding.UTF8,"application/json");
-                    var responses = await client.PatchAsync($"https://localhost:5001/todos/done/{text.Value}",hasil);
+                    client.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer",token);
+                    HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get,$"https://localhost:5001/todo/done/{text.Value}");
+                    HttpResponseMessage response = await client.SendAsync(request);
                 });
             });
 

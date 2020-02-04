@@ -737,11 +737,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Users\\bsi50128\\MiddlewareTest\\CLI\\CLI.csproj",
+      "projectUniqueName": "D:\\Users\\bsi50128\\AuthTest\\CLI\\CLI.csproj",
       "projectName": "CLI",
-      "projectPath": "D:\\Users\\bsi50128\\MiddlewareTest\\CLI\\CLI.csproj",
+      "projectPath": "D:\\Users\\bsi50128\\AuthTest\\CLI\\CLI.csproj",
       "packagesPath": "D:\\Users\\bsi50128\\.nuget\\packages\\",
-      "outputPath": "D:\\Users\\bsi50128\\MiddlewareTest\\CLI\\obj\\",
+      "outputPath": "D:\\Users\\bsi50128\\AuthTest\\CLI\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "D:\\Users\\bsi50128\\AppData\\Roaming\\NuGet\\NuGet.Config",
