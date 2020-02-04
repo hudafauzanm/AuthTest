@@ -1,0 +1,7 @@
+{"errors":{"":["A non-empty request body is required."]},"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"|40d186eb-45a646da9a1e5296."}
+{"errors":{"":["A non-empty request body is required."]},"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"|a1c203e-4b2e27d652f12951."}
+https localhost:5001/user/login  {
+	"username":"huda",
+	"password":"12345"
+}
+400: {"errors":{"":["A non-empty request body is required."]},"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"|479791b2-43028a5a788dadc6."}

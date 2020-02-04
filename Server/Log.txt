@@ -1,0 +1,15 @@
+HTTP POST /user/login responded 200 in 805.9957 ms
+HTTP POST /user/login responded 200 in 813.711 ms
+HTTP POST /user/register responded 200 in 973.3311 ms
+HTTP POST /user/login responded 200 in 90.2574 ms
+HTTP GET /user/login responded 405 in 0.0947 ms
+HTTP POST /user/login responded 200 in 14.550500000000001 ms
+HTTP GET /user/login responded 405 in 0.02 ms
+HTTP POST /user/login responded 200 in 7.8925 ms
+HTTP GET /user/login responded 405 in 0.0204 ms
+HTTP POST /user/login responded 200 in 7.8235 ms
+HTTP GET /user/login responded 405 in 0.0697 ms
+HTTP POST /user/login responded 200 in 6.2098 ms
+HTTP POST /user/login responded 200 in 6.699800000000001 ms
+HTTP POST /user/login responded 200 in 5.7716 ms
+HTTP POST /user/login responded 200 in 9.0267 ms
